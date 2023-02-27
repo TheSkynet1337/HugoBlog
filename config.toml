@@ -1,0 +1,13 @@
+baseURL = "https://TheSkynet1337.github.io/HugoBlog"
+languageCode = 'en-us'
+title = "Tobias' Blog"
+theme = 'nightfall'
+publishDir = "docs"
+[params]
+author = "Tobias G"
+user = "VR Kayaking"
+hostname = "IARVR"
+[[params.social]]
+key = 0
+name = "github"
+url = "https://github.com/TheSkynet1337"
