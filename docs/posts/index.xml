@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Tobias&#39; Blog</title>
+    <link>https://TheSkynet1337.github.io/HugoBlog/posts/</link>
+    <description>Recent content in Posts on Tobias&#39; Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 27 Feb 2023 16:59:18 +0100</lastBuildDate><atom:link href="https://TheSkynet1337.github.io/HugoBlog/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>1. The Idea</title>
+      <link>https://TheSkynet1337.github.io/HugoBlog/posts/the-idea/</link>
+      <pubDate>Mon, 27 Feb 2023 16:59:18 +0100</pubDate>
+      
+      <guid>https://TheSkynet1337.github.io/HugoBlog/posts/the-idea/</guid>
+      <description>The Task The task for this project was to create both a locomotion as well as an interaction technique for use with the Meta Quest 2.
+The locomotion technique should be used to move the player character through a virtual parkour. In three locations of this parkour, the player would have to complete an interaction challenge using the interaction technique.
+The Idea My Idea was to create a VR experience that could be used to exercise whilst sitting down.</description>
+    </item>
+    
+    <item>
+      <title>2. Parkour</title>
+      <link>https://TheSkynet1337.github.io/HugoBlog/posts/parkour/</link>
+      <pubDate>Mon, 27 Feb 2023 15:14:02 +0100</pubDate>
+      
+      <guid>https://TheSkynet1337.github.io/HugoBlog/posts/parkour/</guid>
+      <description>The original parkour was modified to fit the kayaking experience.
+In order to do this the parkour was flattened and coins were moved to a height where they could be reached with the boat. The road surface was replaced with water and the sidewalk was given an invisible collision wall to prevent the player from straying off course. The player character is attached to a boat that moves through the water and the right controller was replaced with a paddle.</description>
+    </item>
+    
+    <item>
+      <title>3. Measuring a Row</title>
+      <link>https://TheSkynet1337.github.io/HugoBlog/posts/measuring-a-row/</link>
+      <pubDate>Mon, 27 Feb 2023 13:14:08 +0100</pubDate>
+      
+      <guid>https://TheSkynet1337.github.io/HugoBlog/posts/measuring-a-row/</guid>
+      <description>The Premise In order for the kayaking experience to feel satisfying the rowing should feel realistic. This means that the boat should move in a way that feels natural. But the boat should also move in a way that is consistent with the effort that the player puts into rowing.
+To that end, the boat should experience drag when moving through the water. This drag applies to both the movement as well as the rotation of the boat.</description>
+    </item>
+    
+    <item>
+      <title>4. Interaction</title>
+      <link>https://TheSkynet1337.github.io/HugoBlog/posts/interaction/</link>
+      <pubDate>Mon, 27 Feb 2023 12:24:35 +0100</pubDate>
+      
+      <guid>https://TheSkynet1337.github.io/HugoBlog/posts/interaction/</guid>
+      <description>Concept Keeping with the Kayak theme, the interaction uses the paddle. The interaction was redesigned to fit the goal of the game, which is to be used as an exercise tool.
+The interaction now consists of a ghost paddle which the player must mimic with the real paddle. They are tasked with holding their paddle in the same position as the ghost paddle for a certain amount of time. After this, the paddle will reappear in a different spot and the player must repeat the process.</description>
+    </item>
+    
+    <item>
+      <title>5. Pole</title>
+      <link>https://TheSkynet1337.github.io/HugoBlog/posts/pole/</link>
+      <pubDate>Mon, 27 Feb 2023 12:00:06 +0100</pubDate>
+      
+      <guid>https://TheSkynet1337.github.io/HugoBlog/posts/pole/</guid>
+      <description>Concept To increase the presence of the user I wanted to create a pole that the player would have to hold in real life. The pole would be tracked by the headset and would be used to interact with the game.
+Creating the Pole I bought a two-meter-long pvc pipe and cut it to an appropriate length. Using a Dremel I cut a groove into the pipe. The ring of the controller sits in the groove and allows for a solid mount using a piece of duct tape.</description>
+    </item>
+    
+    <item>
+      <title>6. Evaluation</title>
+      <link>https://TheSkynet1337.github.io/HugoBlog/posts/evaluation/</link>
+      <pubDate>Mon, 27 Feb 2023 11:14:14 +0100</pubDate>
+      
+      <guid>https://TheSkynet1337.github.io/HugoBlog/posts/evaluation/</guid>
+      <description>Goals of the evaluation In order to evaluate the kayaking experience I wanted to answer a few questions:
+Were the players satisfied with the experience? Would the players be able to complete the parkour? Would the experience achieve its goal of acting as an exercise? Would players experience motion sickness? This was done by having the player fill out a questionnaire after playing the game and recording the time it took for the player to complete the parkour as well as the number of coins they collected along the way.</description>
+    </item>
+    
+    <item>
+      <title>7. Demo and Code</title>
+      <link>https://TheSkynet1337.github.io/HugoBlog/posts/demo-and-code/</link>
+      <pubDate>Mon, 27 Feb 2023 10:13:50 +0100</pubDate>
+      
+      <guid>https://TheSkynet1337.github.io/HugoBlog/posts/demo-and-code/</guid>
+      <description>Demo A demo of the project can be found on YouTube.
+Code The code for the project can be found on GitHub. Two Apk files are included that can be installed on a Meta Quest 2.</description>
+    </item>
+    
+  </channel>
+</rss>

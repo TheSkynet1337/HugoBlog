@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <title>
+4. Interaction | Tobias G
+</title>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="generator" content="Hugo 0.110.0">
+
+
+<link rel="canonical" href="https://TheSkynet1337.github.io/HugoBlog/posts/interaction/" >
+<link href="/HugoBlog/sass/main.min.edade1a6b5d26a86d4be830e647bf49d1e3e84136c10bc0846c75469fec12f83.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div class="flexWrapper">
+        <header class="headerWrapper">
+    <div class="header">
+        <div>
+            <a href="https://TheSkynet1337.github.io/HugoBlog">
+                <span class="terminal">VR Kayaking@IARVR ~ $</span>
+            </a>
+        </div>
+        <input class="side-menu" type="checkbox" id="side-menu"/>
+        <label class="hamb" for="side-menu"><span class="hamb-line"></span></label>
+        <nav class="headerLinks">
+            <ul>
+                
+                <li>
+                    <a href="https://TheSkynet1337.github.io/HugoBlog/posts" title="" >
+                        ~/posts</a>
+                </li>
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="content">
+            <main class="main">
+                
+<div class="postWrapper">
+    <h1>4. Interaction</h1>
+    <div>
+        <h1 id="concept">Concept</h1>
+<p>Keeping with the Kayak theme, the interaction uses the paddle.
+The interaction was redesigned to fit the goal of the game, which is to be used as an exercise tool.</p>
+<p>The interaction now consists of a ghost paddle which the player must mimic with the real paddle.
+They are tasked with holding their paddle in the same position as the ghost paddle for a certain amount of time.
+After this, the paddle will reappear in a different spot and the player must repeat the process.</p>
+<h1 id="implementation">Implementation</h1>
+<p>The paddle has two spheres attached to it, one at the top and one at the bottom.
+These spheres are used to detect collision with the ends of the ghost paddle.
+<img src="virt_pole.png" alt="Paddle"></p>
+<p>If both ends of the paddle collide with the ghost paddle ends, the paddle is considered to be in the correct position.
+At this point, a counter is decremented for every physics frame that the paddle is in the correct position.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> OnTriggerEnter(Collider other)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (other.CompareTag(<span style="color:#e6db74">&#34;RightEndTarget&#34;</span>))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		inTarget = <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (other.CompareTag(<span style="color:#e6db74">&#34;LeftEndTarget&#34;</span>))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		inTarget = <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> FixedUpdate(){
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (poleTriggerLeft.inTarget &amp;&amp; poleTriggerRight.inTarget)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		countdown -= <span style="color:#ae81ff">1.0f</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The ghost paddle&rsquo;s position is always in the direction the player is looking while the rotation is randomized.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>targetPos = hmd.transform.position + hmd.transform.forward * <span style="color:#ae81ff">0.45f</span>;
+</span></span><span style="display:flex;"><span>targerT = Instantiate(ghostPaddle, targetPos, <span style="color:#66d9ef">new</span> Quaternion(Random.Range(<span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>), Random.Range(<span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>), Random.Range(<span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>), Random.Range(<span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>)));
+</span></span></code></pre></div><p>To stop the player from drifting past the ghost paddle their speed is set to zero once they enter the interaction.</p>
+
+    </div>
+</div>
+
+            </main>
+        </div>
+
+
+        <footer class="footer">
+    © 2023 Tobias G, Built with
+    <a href="https://gohugo.io" class="footerLink">Hugo</a> and
+    <a href="https://github.com/LordMathis/hugo-theme-nightfall" class="footerLink">Nightfall</a> theme
+</footer>
+    </div>
+
+</body>
+
+</html>

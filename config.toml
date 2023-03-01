@@ -3,6 +3,7 @@ languageCode = 'en-us'
 title = "Tobias' Blog"
 theme = 'nightfall'
 publishDir = "docs"
+
 [params]
 author = "Tobias G"
 user = "VR Kayaking"
@@ -11,3 +12,8 @@ hostname = "IARVR"
 key = 0
 name = "github"
 url = "https://github.com/TheSkynet1337"
+[menu]
+  [[menu.header]]
+    name = "posts"
+    weight = 0
+    url = "/posts"

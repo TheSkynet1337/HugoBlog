@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <title>
+3. Measuring a Row | Tobias G
+</title>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="generator" content="Hugo 0.110.0">
+
+
+<link rel="canonical" href="https://TheSkynet1337.github.io/HugoBlog/posts/measuring-a-row/" >
+<link href="/HugoBlog/sass/main.min.edade1a6b5d26a86d4be830e647bf49d1e3e84136c10bc0846c75469fec12f83.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div class="flexWrapper">
+        <header class="headerWrapper">
+    <div class="header">
+        <div>
+            <a href="https://TheSkynet1337.github.io/HugoBlog">
+                <span class="terminal">VR Kayaking@IARVR ~ $</span>
+            </a>
+        </div>
+        <input class="side-menu" type="checkbox" id="side-menu"/>
+        <label class="hamb" for="side-menu"><span class="hamb-line"></span></label>
+        <nav class="headerLinks">
+            <ul>
+                
+                <li>
+                    <a href="https://TheSkynet1337.github.io/HugoBlog/posts" title="" >
+                        ~/posts</a>
+                </li>
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="content">
+            <main class="main">
+                
+<div class="postWrapper">
+    <h1>3. Measuring a Row</h1>
+    <div>
+        <h1 id="the-premise">The Premise</h1>
+<p>In order for the kayaking experience to feel satisfying the rowing should feel realistic.
+This means that the boat should move in a way that feels natural.
+But the boat should also move in a way that is consistent with the effort that the player puts into rowing.</p>
+<p>To that end, the boat should experience drag when moving through the water.
+This drag applies to both the movement as well as the rotation of the boat.
+However, the drag should be different for the side-to-side movement and the forward movement since the boat is more streamlined in the forward direction.</p>
+<p>So we need some kind of way to measure the effort that the player puts into rowing and apply that to the boat.
+While applying an appropriate amount of drag to the boat.</p>
+<h1 id="boat-physics">Boat Physics</h1>
+<p>The boat is a rigid body that is moved using Unity&rsquo;s physics engine.
+It is moved by applying forces to the rigid body.</p>
+<p>However, if we simply apply the wanted forces and rotation in a single frame we will get a result that is not very realistic.
+As can be seen in the figure below the boat will move in a straight line and rotate when the expected outcome would be a turn.
+<img src="push_and_rot_same_frame.png" alt="Naive method of applying forces"></p>
+<p>The solution to this is to apply the forces and rotation over multiple frames.
+When applying the forces this way the boat will make a turn as expected.
+This leads to a more realistic result.
+<img src="push_and_rot_multi_frame.png" alt="Applying forces and rotation over multiple frames"></p>
+<p>We then apply a drag force to the boat to simulate the drag that the boat experiences when moving through the water.
+This drag is applied to both the movement as well as the rotation of the boat.
+Since we want differing drag coefficients for the side-to-side movement and the forward movement we need to apply the drag in the local space of the boat.
+However, simply applying the drag locally using <code>rigidbody.AddRelativeForce( new Vector3(-localVelocity.x * sidewaysDrag, 0, -localVelocity.z * forwardDrag));</code> causes unintended movement of the boat.
+Instead, we take the global velocity of the boat and transform it into the local space of the boat and then apply the drag.
+After applying the drag we transform the local velocity back into the global space and set the velocity of the boat to that value.
+This gives us the desired result.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> localVelocity = transform.InverseTransformDirection(rigidbody.velocity);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> newLocalVelocity = <span style="color:#66d9ef">new</span> Vector3(localVelocity.x * sidewaysDrag, <span style="color:#ae81ff">0</span>, localVelocity.z * forwardDrag);
+</span></span><span style="display:flex;"><span>rigidbody.velocity = transform.TransformDirection(newLocalVelocity);
+</span></span></code></pre></div><p>The rotational drag does not have these problems and we can simply use global coordinates.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>rigidbody.AddTorque(-rigidbody.angularVelocity * rotationalDrag);
+</span></span></code></pre></div><p>This setup gives a satisfying simulation of the real behavior of a boat.</p>
+<h1 id="measuring-the-effort-of-the-player">Measuring the effort of the player</h1>
+<p>To measure the effort that the player puts into rowing we need to measure the force that the player applies to the boat.
+This is done by measuring the speed at which the player moves the paddle through the water.</p>
+<p>The velocity of the paddle is measured by taking the position of the paddle at the previous frame and the current frame whenever the paddle is in the water.
+Whether the paddle is in the water is determined by two collision boxes that are attached to the boat.
+<img src="row_boxes.png" alt="Collision boxes">
+The difference between these two positions is then calculated along the forward axis of the boat.
+Since all forces are applied and calculated in FixedUpdate() the time between the two frames is constant.
+The speed of the paddle is then used as a proxy for the force that the player has applied to the boat.
+The force that the player has applied to a given side of the boat is stored between frames as <em>leftForce</em> and <em>rightForce</em>.
+Naturally rowing on the left side of the boat is counted towards <em>leftForce</em> and visa-versa.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> posLocal = gameObject.transform.InverseTransformPoint(paddlePosition);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> speed = -(posLocal - lastPosLocal).z;
+</span></span><span style="display:flex;"><span>lastPosLocal = posLocal;
+</span></span><span style="display:flex;"><span>leftForce += speed * dampen;
+</span></span></code></pre></div><p>The player thus builds up a force on each side of the boat by rowing.</p>
+<p>This force is then applied to the boat in FixedUpdate().
+The forces that need to be applied are the forward force and the rotation.
+The forward force is simply the sum of the forces on each side of the boat.
+The rotation is calculated by taking the difference between the forces on each side of the boat.
+These forces are then divided by the physics framerate of the game and clamped to a maximum value to prevent high accelerations.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#66d9ef">float</span> forwardForceToApply = Mathf.Min((leftForce + rightForce) / <span style="color:#ae81ff">60</span>, forwardClamp);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> rotationForceToApply = Mathf.Min(((leftForce - rightForce) / <span style="color:#ae81ff">60</span>) * rotationDampening, rotationClamp);
+</span></span></code></pre></div><p>After making sure that the player is not exceeding the set maximum speed the forces are applied to the boat using AddRelativeForce() and AddRelativeTorque().</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (localVelocity.z &lt; max_speed &amp;&amp; forwardForceToApply &gt; <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	rigidbody.AddRelativeForce(<span style="color:#66d9ef">new</span> Vector3(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, forwardForceToApply));
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (localVelocity.z &gt; -max_speed &amp;&amp; forwardForceToApply &lt; <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	rigidbody.AddRelativeForce(<span style="color:#66d9ef">new</span> Vector3(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, forwardForceToApply));
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>rigidbody.AddRelativeTorque(<span style="color:#66d9ef">new</span> Vector3(<span style="color:#ae81ff">0</span>, rotationForceToApply, <span style="color:#ae81ff">0</span>));
+</span></span></code></pre></div><p>Finally, the saved-up forces are decayed in each frame.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>rightForce = rightForce - rightForce / <span style="color:#ae81ff">60</span>;
+</span></span><span style="display:flex;"><span>leftForce = leftForce - leftForce / <span style="color:#ae81ff">60</span>;
+</span></span></code></pre></div><p>This setup gives a satisfying simulation and allows the player to control the boat in a realistic way.
+It also allows for the tweaking of multiple parameters to get the desired feel of the boat.</p>
+
+    </div>
+</div>
+
+            </main>
+        </div>
+
+
+        <footer class="footer">
+    © 2023 Tobias G, Built with
+    <a href="https://gohugo.io" class="footerLink">Hugo</a> and
+    <a href="https://github.com/LordMathis/hugo-theme-nightfall" class="footerLink">Nightfall</a> theme
+</footer>
+    </div>
+
+</body>
+
+</html>

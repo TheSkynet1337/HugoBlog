@@ -2,10 +2,35 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://TheSkynet1337.github.io/HugoBlog/posts/the-idea/</loc>
+    <lastmod>2023-02-27T16:59:18+01:00</lastmod>
+  </url><url>
+    <loc>https://TheSkynet1337.github.io/HugoBlog/posts/</loc>
+    <lastmod>2023-02-27T16:59:18+01:00</lastmod>
+  </url><url>
+    <loc>https://TheSkynet1337.github.io/HugoBlog/</loc>
+    <lastmod>2023-02-27T16:59:18+01:00</lastmod>
+  </url><url>
+    <loc>https://TheSkynet1337.github.io/HugoBlog/posts/parkour/</loc>
+    <lastmod>2023-02-27T15:14:02+01:00</lastmod>
+  </url><url>
+    <loc>https://TheSkynet1337.github.io/HugoBlog/posts/measuring-a-row/</loc>
+    <lastmod>2023-02-27T13:14:08+01:00</lastmod>
+  </url><url>
+    <loc>https://TheSkynet1337.github.io/HugoBlog/posts/interaction/</loc>
+    <lastmod>2023-02-27T12:24:35+01:00</lastmod>
+  </url><url>
+    <loc>https://TheSkynet1337.github.io/HugoBlog/posts/pole/</loc>
+    <lastmod>2023-02-27T12:00:06+01:00</lastmod>
+  </url><url>
+    <loc>https://TheSkynet1337.github.io/HugoBlog/posts/evaluation/</loc>
+    <lastmod>2023-02-27T11:14:14+01:00</lastmod>
+  </url><url>
+    <loc>https://TheSkynet1337.github.io/HugoBlog/posts/demo-and-code/</loc>
+    <lastmod>2023-02-27T10:13:50+01:00</lastmod>
+  </url><url>
     <loc>https://TheSkynet1337.github.io/HugoBlog/categories/</loc>
   </url><url>
     <loc>https://TheSkynet1337.github.io/HugoBlog/tags/</loc>
-  </url><url>
-    <loc>https://TheSkynet1337.github.io/HugoBlog/</loc>
   </url>
 </urlset>
